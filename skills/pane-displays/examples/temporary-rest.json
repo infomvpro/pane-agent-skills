@@ -1,0 +1,23 @@
+{
+  "view_mode": "temporary",
+  "temporary_view": {
+    "ttl_sec": 180,
+    "reason": "meeting_reminder",
+    "priority": 500,
+    "return_policy": "return_to_main",
+    "conflict_policy": "replace_lower_priority"
+  },
+  "cards": [
+    {
+      "id": "reminder",
+      "type": "notification.simple",
+      "priority": 900,
+      "data": {
+        "title": "Meeting soon",
+        "message": "Design review begins in 10 minutes.",
+        "level": "info"
+      }
+    }
+  ],
+  "idempotency_key": "EXAMPLE-REPLACE-WITH-NEW-KEY-temporary-rest"
+}

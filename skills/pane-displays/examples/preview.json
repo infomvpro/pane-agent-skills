@@ -1,0 +1,36 @@
+{
+  "display_id": "EXAMPLE_OFFICE_DISPLAY",
+  "view_mode": "main",
+  "cards": [
+    {
+      "id": "agenda",
+      "type": "calendar.agenda",
+      "priority": 900,
+      "data": {
+        "calendar": "Example day",
+        "date": "2026-10-21",
+        "entries": [
+          {
+            "title": "Design review",
+            "time": "09:00",
+            "location": "Meeting room"
+          },
+          {
+            "title": "Project planning",
+            "time": "14:00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "note",
+      "type": "text.block",
+      "priority": 500,
+      "data": {
+        "title": "Today",
+        "body": "Review the prototype before the afternoon planning session.",
+        "footer": "Fictional example"
+      }
+    }
+  ]
+}

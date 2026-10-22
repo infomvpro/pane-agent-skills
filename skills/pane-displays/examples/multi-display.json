@@ -1,0 +1,69 @@
+{
+  "renders": [
+    {
+      "display_id": "EXAMPLE_OFFICE_DISPLAY",
+      "view_mode": "main",
+      "cards": [
+        {
+          "id": "agenda",
+          "type": "calendar.agenda",
+          "priority": 900,
+          "data": {
+            "calendar": "Example day",
+            "date": "2026-10-21",
+            "entries": [
+              {
+                "title": "Design review",
+                "time": "09:00",
+                "location": "Meeting room"
+              },
+              {
+                "title": "Project planning",
+                "time": "14:00"
+              }
+            ]
+          }
+        },
+        {
+          "id": "note",
+          "type": "text.block",
+          "priority": 500,
+          "data": {
+            "title": "Today",
+            "body": "Review the prototype before the afternoon planning session.",
+            "footer": "Fictional example"
+          }
+        }
+      ],
+      "idempotency_key": "EXAMPLE-REPLACE-WITH-NEW-KEY-target-1"
+    },
+    {
+      "display_id": "EXAMPLE_KITCHEN_DISPLAY",
+      "view_mode": "main",
+      "cards": [
+        {
+          "id": "weather",
+          "type": "weather.summary",
+          "priority": 900,
+          "data": {
+            "location": "Example city",
+            "temp_c": 12,
+            "condition": "Cloudy",
+            "high_c": 15,
+            "low_c": 8
+          }
+        },
+        {
+          "id": "home-note",
+          "type": "text.block",
+          "priority": 500,
+          "data": {
+            "title": "Reminder",
+            "body": "Water the plants this evening."
+          }
+        }
+      ],
+      "idempotency_key": "EXAMPLE-REPLACE-WITH-NEW-KEY-target-2"
+    }
+  ]
+}

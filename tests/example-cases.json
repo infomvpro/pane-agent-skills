@@ -1,0 +1,11 @@
+{
+  "main-summary.json": "render-mcp",
+  "main-rest.json": "render-rest",
+  "temporary-notice.json": "render-mcp",
+  "temporary-rest.json": "render-rest",
+  "notification.json": "notify-mcp",
+  "notification-rest.json": "notify-rest",
+  "multi-display.json": "multi-display",
+  "preview.json": "preview-mcp",
+  "revision-main.json": "render-mcp"
+}

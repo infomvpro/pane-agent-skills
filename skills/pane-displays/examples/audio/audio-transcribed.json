@@ -1,0 +1,26 @@
+{
+  "event": "audio.transcribed",
+  "audio_event_id": "aud_example_001",
+  "audio_session_id": "audses_example_001",
+  "project_id": "grp_example_office",
+  "group_id": "grp_example_office",
+  "group_name": "Example Office",
+  "screen_id": "disp_example_desk",
+  "display_id": "disp_example_desk",
+  "display_label": "Example Desk",
+  "hardware_uid": "example-only",
+  "location": "Example room",
+  "transcript": "Show a short reminder that the example meeting starts at ten.",
+  "transcript_source": "provider",
+  "legacy_auto_render_requested": false,
+  "transcription": {
+    "source": "provider",
+    "provider": "example",
+    "model": "example"
+  },
+  "duration_ms": 4000,
+  "reported_duration_ms": 4100,
+  "duration_source": "wav",
+  "metadata": {},
+  "created_at": "2026-10-22 10:00:00+00:00"
+}

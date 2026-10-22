@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "date": {
+      "type": "string"
+    },
+    "calendar": {
+      "type": "string"
+    },
+    "entries": {
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "$ref": "#/$defs/entry"
+          }
+        ]
+      },
+      "description": "Ordered entries; strings and structured objects are supported."
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "$ref": "#/$defs/entry"
+          }
+        ]
+      },
+      "description": "Ordered entries; strings and structured objects are supported."
+    },
+    "max_items": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Optional upper bound on visible entries. Pixel fitting may show fewer; hidden entries are counted. This differs from the legacy per-span presentation hint."
+    }
+  },
+  "required": [
+    "entries"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "entry": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "headline": {
+          "type": "string"
+        },
+        "subject": {
+          "type": "string"
+        },
+        "person": {
+          "type": "string"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        },
+        "place": {
+          "type": "string"
+        },
+        "room": {
+          "type": "string"
+        },
+        "time": {
+          "type": "string"
+        },
+        "starts_at": {
+          "type": "string",
+          "description": "Offset timestamps are converted to the project timezone; plain times remain as written."
+        },
+        "start": {
+          "type": "string"
+        },
+        "ends_at": {
+          "type": "string",
+          "description": "Optional end time; may be omitted from narrow layouts to retain the start time."
+        },
+        "end": {
+          "type": "string"
+        },
+        "who": {
+          "type": [
+            "string",
+            "array"
+          ],
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

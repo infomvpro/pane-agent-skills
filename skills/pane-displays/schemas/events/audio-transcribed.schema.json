@@ -1,0 +1,127 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pane.ink/skill/schemas/audio-transcribed.schema.json",
+  "title": "Pane audio.transcribed receiver profile (2026-10-22)",
+  "description": "Receiver authoring profile traced to AudioService._webhook_payload. Additional top-level fields are tolerated for forward compatibility. Receiver also checks aliases, scope and legacy publication. Not an official REST response schema.",
+  "type": "object",
+  "required": [
+    "event",
+    "audio_event_id",
+    "audio_session_id",
+    "project_id",
+    "group_id",
+    "screen_id",
+    "display_id",
+    "transcript",
+    "created_at"
+  ],
+  "properties": {
+    "event": {
+      "const": "audio.transcribed"
+    },
+    "audio_event_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_.:-]{1,128}$"
+    },
+    "audio_session_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_.:-]{1,128}$"
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_.:-]{1,128}$"
+    },
+    "group_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_.:-]{1,128}$"
+    },
+    "screen_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_.:-]{1,128}$"
+    },
+    "display_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_.:-]{1,128}$"
+    },
+    "group_name": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "maxLength": 10000
+    },
+    "display_label": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "maxLength": 10000
+    },
+    "hardware_uid": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "maxLength": 10000
+    },
+    "location": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "maxLength": 10000
+    },
+    "transcript_source": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "maxLength": 10000
+    },
+    "duration_source": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "maxLength": 10000
+    },
+    "transcript": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100000
+    },
+    "legacy_auto_render_requested": {
+      "type": "boolean"
+    },
+    "transcription": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "duration_ms": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "reported_duration_ms": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "metadata": {
+      "type": "object"
+    },
+    "created_at": {
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}[T ]\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,6})?(Z|[+-]\\d{2}:\\d{2})$",
+      "description": "Pane webhook serializer currently uses a space separator for aware datetime objects. Also accepts RFC3339 T/Z. Signature uses the original bytes unchanged."
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "location": {
+      "type": "string"
+    },
+    "temp_c": {
+      "type": "number"
+    },
+    "condition": {
+      "type": "string"
+    },
+    "high_c": {
+      "type": "number"
+    },
+    "low_c": {
+      "type": "number"
+    },
+    "humidity_pct": {
+      "type": "number"
+    },
+    "wind_kmh": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "location",
+    "temp_c",
+    "condition"
+  ],
+  "additionalProperties": false
+}

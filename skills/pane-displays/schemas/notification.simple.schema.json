@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "message": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string",
+      "description": "Offset timestamps are converted to the project timezone; plain times remain as written."
+    },
+    "level": {
+      "type": "string",
+      "enum": [
+        "neutral",
+        "info",
+        "success",
+        "warning",
+        "error"
+      ]
+    }
+  },
+  "required": [
+    "title",
+    "message"
+  ],
+  "additionalProperties": false
+}

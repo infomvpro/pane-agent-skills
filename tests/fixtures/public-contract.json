@@ -1,0 +1,811 @@
+{
+  "contract": {
+    "components": {
+      "schemas": {
+        "CardInput": {
+          "properties": {
+            "data": {
+              "additionalProperties": true,
+              "title": "Data",
+              "type": "object"
+            },
+            "id": {
+              "maxLength": 128,
+              "minLength": 1,
+              "title": "Id",
+              "type": "string"
+            },
+            "preferred_span": {
+              "anyOf": [
+                {
+                  "maxLength": 32,
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "deprecated": true,
+              "title": "Preferred Span"
+            },
+            "priority": {
+              "default": 100,
+              "maximum": 1000.0,
+              "minimum": 0.0,
+              "title": "Priority",
+              "type": "integer"
+            },
+            "type": {
+              "maxLength": 128,
+              "minLength": 1,
+              "title": "Type",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "type"
+          ],
+          "title": "CardInput",
+          "type": "object"
+        },
+        "ContentCard": {
+          "additionalProperties": false,
+          "properties": {
+            "data": {
+              "additionalProperties": true,
+              "title": "Data",
+              "type": "object"
+            },
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "priority": {
+              "title": "Priority",
+              "type": "integer"
+            },
+            "type": {
+              "title": "Type",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "type",
+            "priority",
+            "data"
+          ],
+          "title": "ContentCard",
+          "type": "object"
+        },
+        "ContentCompatibility": {
+          "additionalProperties": false,
+          "properties": {
+            "can_render_with_current_schema": {
+              "title": "Can Render With Current Schema",
+              "type": "boolean"
+            },
+            "errors": {
+              "anyOf": [
+                {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Errors"
+            },
+            "schema_changed": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Schema Changed"
+            }
+          },
+          "required": [
+            "can_render_with_current_schema",
+            "schema_changed"
+          ],
+          "title": "ContentCompatibility",
+          "type": "object"
+        },
+        "ContentRequest": {
+          "additionalProperties": false,
+          "properties": {
+            "cards": {
+              "items": {
+                "$ref": "#/components/schemas/ContentCard"
+              },
+              "title": "Cards",
+              "type": "array"
+            },
+            "temporary_view": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/TemporaryViewOptions"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "view_mode": {
+              "enum": [
+                "main",
+                "temporary"
+              ],
+              "title": "View Mode",
+              "type": "string"
+            }
+          },
+          "required": [
+            "view_mode",
+            "temporary_view",
+            "cards"
+          ],
+          "title": "ContentRequest",
+          "type": "object"
+        },
+        "FrameContent": {
+          "additionalProperties": false,
+          "properties": {
+            "bit_identical_replay_guaranteed": {
+              "const": false,
+              "default": false,
+              "title": "Bit Identical Replay Guaranteed",
+              "type": "boolean"
+            },
+            "compatibility": {
+              "$ref": "#/components/schemas/ContentCompatibility"
+            },
+            "content_revision_id": {
+              "title": "Content Revision Id",
+              "type": "string"
+            },
+            "contract_version": {
+              "const": 1,
+              "default": 1,
+              "title": "Contract Version",
+              "type": "integer"
+            },
+            "created_at": {
+              "format": "date-time",
+              "title": "Created At",
+              "type": "string"
+            },
+            "display_publication_version": {
+              "title": "Display Publication Version",
+              "type": "integer"
+            },
+            "frame_id": {
+              "title": "Frame Id",
+              "type": "string"
+            },
+            "project_id": {
+              "title": "Project Id",
+              "type": "string"
+            },
+            "provenance": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/RenderProvenance"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "provenance_status": {
+              "enum": [
+                "recorded",
+                "legacy_unknown",
+                "unavailable"
+              ],
+              "title": "Provenance Status",
+              "type": "string"
+            },
+            "publication_state": {
+              "enum": [
+                "current",
+                "published_main",
+                "historical_or_unpublished"
+              ],
+              "title": "Publication State",
+              "type": "string"
+            },
+            "publication_version": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Publication Version"
+            },
+            "render_request": {
+              "$ref": "#/components/schemas/ContentRequest"
+            },
+            "screen_id": {
+              "title": "Screen Id",
+              "type": "string"
+            }
+          },
+          "required": [
+            "content_revision_id",
+            "frame_id",
+            "screen_id",
+            "project_id",
+            "publication_version",
+            "display_publication_version",
+            "publication_state",
+            "created_at",
+            "render_request",
+            "provenance_status",
+            "provenance",
+            "compatibility"
+          ],
+          "title": "FrameContent",
+          "type": "object"
+        },
+        "NotifyRequest": {
+          "properties": {
+            "expected_publication_version": {
+              "anyOf": [
+                {
+                  "maximum": 9.223372036854776e+18,
+                  "minimum": 0.0,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Expected Publication Version"
+            },
+            "idempotency_key": {
+              "anyOf": [
+                {
+                  "maxLength": 128,
+                  "minLength": 1,
+                  "pattern": "^[A-Za-z0-9_.:-]+$",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Idempotency Key"
+            },
+            "level": {
+              "default": "info",
+              "title": "Level",
+              "type": "string"
+            },
+            "message": {
+              "minLength": 1,
+              "title": "Message",
+              "type": "string"
+            },
+            "priority": {
+              "default": 700,
+              "maximum": 1000.0,
+              "minimum": 0.0,
+              "title": "Priority",
+              "type": "integer"
+            },
+            "title": {
+              "minLength": 1,
+              "title": "Title",
+              "type": "string"
+            },
+            "ttl_sec": {
+              "default": 45,
+              "maximum": 3600.0,
+              "minimum": 5.0,
+              "title": "Ttl Sec",
+              "type": "integer"
+            }
+          },
+          "required": [
+            "title",
+            "message"
+          ],
+          "title": "NotifyRequest",
+          "type": "object"
+        },
+        "RenderProvenance": {
+          "additionalProperties": false,
+          "properties": {
+            "backend": {
+              "title": "Backend",
+              "type": "string"
+            },
+            "color_mode": {
+              "title": "Color Mode",
+              "type": "string"
+            },
+            "contract_version": {
+              "const": 1,
+              "default": 1,
+              "title": "Contract Version",
+              "type": "integer"
+            },
+            "display_type_id": {
+              "title": "Display Type Id",
+              "type": "string"
+            },
+            "encoding": {
+              "title": "Encoding",
+              "type": "string"
+            },
+            "height": {
+              "title": "Height",
+              "type": "integer"
+            },
+            "locale": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Locale"
+            },
+            "orientation": {
+              "title": "Orientation",
+              "type": "string"
+            },
+            "rendered_at": {
+              "format": "date-time",
+              "title": "Rendered At",
+              "type": "string"
+            },
+            "renderer_source_sha256": {
+              "title": "Renderer Source Sha256",
+              "type": "string"
+            },
+            "schema_sha256": {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "title": "Schema Sha256",
+              "type": "object"
+            },
+            "theme_id": {
+              "title": "Theme Id",
+              "type": "string"
+            },
+            "theme_sha256": {
+              "title": "Theme Sha256",
+              "type": "string"
+            },
+            "timezone": {
+              "title": "Timezone",
+              "type": "string"
+            },
+            "width": {
+              "title": "Width",
+              "type": "integer"
+            }
+          },
+          "required": [
+            "backend",
+            "renderer_source_sha256",
+            "schema_sha256",
+            "display_type_id",
+            "orientation",
+            "width",
+            "height",
+            "color_mode",
+            "encoding",
+            "theme_id",
+            "theme_sha256",
+            "rendered_at",
+            "timezone",
+            "locale"
+          ],
+          "title": "RenderProvenance",
+          "type": "object"
+        },
+        "RenderRequest": {
+          "properties": {
+            "cards": {
+              "items": {
+                "$ref": "#/components/schemas/CardInput"
+              },
+              "maxItems": 24,
+              "minItems": 1,
+              "title": "Cards",
+              "type": "array"
+            },
+            "expected_publication_version": {
+              "anyOf": [
+                {
+                  "maximum": 9.223372036854776e+18,
+                  "minimum": 0.0,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Expected Publication Version"
+            },
+            "idempotency_key": {
+              "anyOf": [
+                {
+                  "maxLength": 128,
+                  "minLength": 1,
+                  "pattern": "^[A-Za-z0-9_.:-]+$",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Idempotency Key"
+            },
+            "layout_hint": {
+              "anyOf": [
+                {
+                  "maxLength": 128,
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "deprecated": true,
+              "title": "Layout Hint"
+            },
+            "screen_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Screen Id"
+            },
+            "temporary_view": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/TemporaryViewOptions"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "view_mode": {
+              "default": "main",
+              "title": "View Mode",
+              "type": "string"
+            }
+          },
+          "required": [
+            "cards"
+          ],
+          "title": "RenderRequest",
+          "type": "object"
+        },
+        "TemporaryViewOptions": {
+          "properties": {
+            "conflict_policy": {
+              "default": "replace_lower_priority",
+              "enum": [
+                "replace_lower_priority",
+                "replace_current",
+                "drop_if_busy",
+                "queue"
+              ],
+              "title": "Conflict Policy",
+              "type": "string"
+            },
+            "priority": {
+              "default": 500,
+              "maximum": 1000.0,
+              "minimum": 0.0,
+              "title": "Priority",
+              "type": "integer"
+            },
+            "reason": {
+              "default": "custom",
+              "title": "Reason",
+              "type": "string"
+            },
+            "return_policy": {
+              "const": "return_to_main",
+              "default": "return_to_main",
+              "title": "Return Policy",
+              "type": "string"
+            },
+            "ttl_sec": {
+              "maximum": 3600.0,
+              "minimum": 5.0,
+              "title": "Ttl Sec",
+              "type": "integer"
+            }
+          },
+          "required": [
+            "ttl_sec"
+          ],
+          "title": "TemporaryViewOptions",
+          "type": "object"
+        }
+      }
+    },
+    "mcp": {
+      "get_frame_content": {
+        "properties": {
+          "display_id": {
+            "title": "Display Id",
+            "type": "string"
+          },
+          "frame_id": {
+            "title": "Frame Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "display_id",
+          "frame_id"
+        ],
+        "title": "get_frame_contentArguments",
+        "type": "object"
+      },
+      "get_publication_operation": {
+        "properties": {
+          "display_id": {
+            "title": "Display Id",
+            "type": "string"
+          },
+          "operation_id": {
+            "title": "Operation Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "display_id",
+          "operation_id"
+        ],
+        "title": "get_publication_operationArguments",
+        "type": "object"
+      },
+      "preview_display_content": {
+        "properties": {
+          "cards": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "title": "Cards",
+            "type": "array"
+          },
+          "conflict_policy": {
+            "default": "replace_lower_priority",
+            "title": "Conflict Policy",
+            "type": "string"
+          },
+          "display_id": {
+            "title": "Display Id",
+            "type": "string"
+          },
+          "temporary_priority": {
+            "default": 500,
+            "title": "Temporary Priority",
+            "type": "integer"
+          },
+          "temporary_reason": {
+            "default": "custom",
+            "title": "Temporary Reason",
+            "type": "string"
+          },
+          "ttl_sec": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Ttl Sec"
+          },
+          "view_mode": {
+            "default": "main",
+            "enum": [
+              "main",
+              "temporary"
+            ],
+            "title": "View Mode",
+            "type": "string"
+          }
+        },
+        "required": [
+          "display_id",
+          "cards"
+        ],
+        "title": "preview_display_contentArguments",
+        "type": "object"
+      },
+      "render_display_content": {
+        "properties": {
+          "cards": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "title": "Cards",
+            "type": "array"
+          },
+          "conflict_policy": {
+            "default": "replace_lower_priority",
+            "title": "Conflict Policy",
+            "type": "string"
+          },
+          "display_id": {
+            "title": "Display Id",
+            "type": "string"
+          },
+          "expected_publication_version": {
+            "anyOf": [
+              {
+                "maximum": 9223372036854775807,
+                "minimum": 0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Expected Publication Version"
+          },
+          "idempotency_key": {
+            "anyOf": [
+              {
+                "maxLength": 128,
+                "minLength": 1,
+                "pattern": "^[A-Za-z0-9_.:-]+$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Idempotency Key"
+          },
+          "temporary_priority": {
+            "default": 500,
+            "title": "Temporary Priority",
+            "type": "integer"
+          },
+          "temporary_reason": {
+            "default": "custom",
+            "title": "Temporary Reason",
+            "type": "string"
+          },
+          "ttl_sec": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Ttl Sec"
+          },
+          "view_mode": {
+            "default": "main",
+            "enum": [
+              "main",
+              "temporary"
+            ],
+            "title": "View Mode",
+            "type": "string"
+          }
+        },
+        "required": [
+          "display_id",
+          "cards"
+        ],
+        "title": "render_display_contentArguments",
+        "type": "object"
+      },
+      "send_temporary_notification": {
+        "properties": {
+          "display_id": {
+            "title": "Display Id",
+            "type": "string"
+          },
+          "expected_publication_version": {
+            "anyOf": [
+              {
+                "maximum": 9223372036854775807,
+                "minimum": 0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Expected Publication Version"
+          },
+          "idempotency_key": {
+            "anyOf": [
+              {
+                "maxLength": 128,
+                "minLength": 1,
+                "pattern": "^[A-Za-z0-9_.:-]+$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Idempotency Key"
+          },
+          "level": {
+            "default": "info",
+            "enum": [
+              "info",
+              "success",
+              "warning",
+              "error"
+            ],
+            "title": "Level",
+            "type": "string"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          },
+          "priority": {
+            "default": 700,
+            "title": "Priority",
+            "type": "integer"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "ttl_sec": {
+            "default": 45,
+            "title": "Ttl Sec",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "display_id",
+          "title",
+          "message"
+        ],
+        "title": "send_temporary_notificationArguments",
+        "type": "object"
+      }
+    }
+  },
+  "reviewed_at": "2026-10-21",
+  "source": "Public OpenAPI/MCP definitions exported from the maintained Pane application; deployed runtime fields and source checked on 2026-10-21. No user data."
+}

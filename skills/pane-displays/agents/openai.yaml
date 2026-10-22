@@ -1,0 +1,11 @@
+interface:
+  display_name: "Pane displays"
+  short_description: "Publish cards and alerts to Pane e-paper displays"
+  default_prompt: "Use $pane-displays to show my requested content on the right Pane display and report publication status."
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "pane"
+      description: "Pane display discovery, structured rendering and status"
+      transport: "streamable_http"
+      url: "https://mcp.pane.ink/mcp"

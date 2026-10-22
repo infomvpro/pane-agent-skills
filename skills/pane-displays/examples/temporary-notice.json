@@ -1,0 +1,21 @@
+{
+  "display_id": "EXAMPLE_OFFICE_DISPLAY",
+  "view_mode": "temporary",
+  "ttl_sec": 180,
+  "temporary_reason": "meeting_reminder",
+  "temporary_priority": 500,
+  "conflict_policy": "replace_lower_priority",
+  "cards": [
+    {
+      "id": "reminder",
+      "type": "notification.simple",
+      "priority": 900,
+      "data": {
+        "title": "Meeting soon",
+        "message": "Design review begins in 10 minutes.",
+        "level": "info"
+      }
+    }
+  ],
+  "idempotency_key": "EXAMPLE-REPLACE-WITH-NEW-KEY-temporary-notice"
+}

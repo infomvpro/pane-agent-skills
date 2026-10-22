@@ -1,0 +1,8 @@
+{
+  "title": "Delivery arriving",
+  "message": "Please check the door in three minutes.",
+  "ttl_sec": 180,
+  "priority": 700,
+  "level": "info",
+  "idempotency_key": "EXAMPLE-REPLACE-WITH-NEW-KEY-notification"
+}

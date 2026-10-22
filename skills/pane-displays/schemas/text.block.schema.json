@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Short heading shown as the primary card title."
+    },
+    "body": {
+      "type": "string",
+      "description": "Main free-form text. Newlines are preserved as separate paragraphs."
+    },
+    "footer": {
+      "type": "string",
+      "description": "Optional small footer line."
+    },
+    "level": {
+      "type": "string",
+      "enum": [
+        "info",
+        "success",
+        "warning",
+        "error",
+        "neutral"
+      ],
+      "default": "neutral"
+    },
+    "align": {
+      "type": "string",
+      "enum": [
+        "left",
+        "center",
+        "right"
+      ],
+      "default": "left"
+    },
+    "size": {
+      "type": "string",
+      "enum": [
+        "sm",
+        "md",
+        "lg",
+        "xl"
+      ],
+      "default": "md"
+    }
+  },
+  "required": [
+    "title",
+    "body"
+  ],
+  "additionalProperties": false
+}

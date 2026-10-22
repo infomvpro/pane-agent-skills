@@ -1,0 +1,29 @@
+{
+  "reviewed_at": "2026-10-21",
+  "source": "Pane maintained card-data schemas; exact source SHA-256 matched the production API on 2026-10-21. No authenticated get_card_schema call was needed.",
+  "schema_api": "MCP get_card_schema(card_type), not an HTTP file URL",
+  "scope": "Example snapshots only, not the complete card catalogue",
+  "files": [
+    {
+      "card_type": "text.block",
+      "file": "text.block.schema.json",
+      "sha256": "8982e356c8656272b277417b7bf263eb56136fabad68bb2d4e4db53d2816d5c1"
+    },
+    {
+      "card_type": "weather.summary",
+      "file": "weather.summary.schema.json",
+      "sha256": "c492a505d014cc26d3bcc9ef46d75c65b7b329d05d494109b0e665ebbc68e535"
+    },
+    {
+      "card_type": "calendar.agenda",
+      "file": "calendar.agenda.schema.json",
+      "sha256": "ec35f3aca2f97c6a0e0b833cc156f5d0527e289e8f22fe6d983da91c8ac04bc6"
+    },
+    {
+      "card_type": "notification.simple",
+      "file": "notification.simple.schema.json",
+      "sha256": "ec689d98eafc77fcc76dcf82866df088d710fe345225d908abfce676cf2587e0"
+    }
+  ],
+  "package_version": "0.3.0"
+}
