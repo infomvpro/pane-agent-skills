@@ -25,9 +25,17 @@ temporary view. Equal/higher priority can produce `temporary_view_busy`.
 intentional override, not a retry technique. `queue` is not supported by the
 checked implementation even if an input enum mentions it.
 
-TTL begins on **server publication**. Rendering time and device download/refresh
-time are distinct. A short-lived notification may expire before an offline or slow
-device shows it. Server expiry cannot physically erase an unpowered display.
+For supporting devices, `temporary_timing` version 1 starts the visible duration
+after the physical refresh completes. Before that, `phase: pending` has a bounded
+300-second start window; after confirmation, `phase: active` follows the remaining
+visible duration. The pending hard expiry is a cleanup bound, not when the viewer
+will stop seeing the notification. A device that misses the start window must not
+present stale content. Duplicate reads and reconnects do not restart the duration.
+
+Legacy devices and older publications keep publication-time expiry. Inspect the
+reported timing mode/state; do not infer firmware support from a server upgrade.
+Rendering, download and refresh are distinct. An offline display can miss delivery,
+and server expiry cannot physically erase an unpowered display.
 
 Updating main while a temporary view is active can save the new base without
 making it current (`published: true`, `current: false`). After expiry the server

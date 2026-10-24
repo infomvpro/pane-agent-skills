@@ -119,7 +119,7 @@ def api_origin(value: str, allow_http_localhost: bool = False) -> str:
 def get_bytes(url: str, *, token: str | None = None, timeout: float = 10,
               limit: int = JSON_LIMIT) -> bytes:
     headers = {"Accept": "application/json" if token else "image/png",
-               "User-Agent": "pane-agent-skills/0.3.0"}
+               "User-Agent": "pane-agent-skills/0.3.1"}
     if token is not None:
         if not token or any(c.isspace() for c in token):
             raise SafeError("invalid_api_key")

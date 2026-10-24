@@ -7,7 +7,7 @@ layout, themes, screen orientation and colour capabilities.
 **Included skill:** [`pane-displays`](skills/pane-displays/SKILL.md).
 It covers display discovery, main/temporary views, notifications, previews,
 device-reported acknowledgements, safe retries, guarded content revisions and
-voice/webhook setup with a durable receiver and bounded worker. Current package: **0.3.0**.
+voice/webhook setup with a durable receiver and bounded worker. Current package: **0.3.1**.
 The package follows the [Agent Skills format](https://agentskills.io/specification).
 
 ## Install and connect

@@ -4,7 +4,7 @@ description: Show or revise content on Pane e-paper displays through MCP or the 
 license: MIT
 metadata:
   author: Pane
-  version: "0.3.0"
+  version: "0.3.1"
 ---
 
 # Pane displays
@@ -69,8 +69,11 @@ does not guarantee identical pixels, and replaying temporary content starts a ne
   retry loop. `superseded` records an earlier successful write that is no longer
   current or retained main; retrying its key must not restore it. Retention is
   bounded (seven days by default); never treat an old key as a permanent guarantee.
-- TTL starts at publication, not ACK. Main updates during a temporary view may be
-  saved with `published: true, current: false`. Expiry selects the latest main, or
+- With `temporary_timing` v1, visible duration starts after the supported device
+  completes its refresh. Pending delivery has a 300-second start window; its hard
+  deadline is not the visible-duration clock. Legacy timing starts at publication.
+  Inspect pending/active state; never claim a pending view was displayed. Main
+  updates may be saved with `published: true, current: false`. Expiry selects the latest main, or
   “Waiting for content” when none exists. Offline return depends on firmware;
   an unpowered e-paper panel retains pixels. Do not promise universal local expiry.
 - Default temporary conflict policy replaces only lower priority. `queue` is not
@@ -109,7 +112,7 @@ scope before acceptance. Deduplicate delivery and audio event IDs before agent w
 requires an owner session, not ordinary MCP OAuth/API-key access. Reuse an existing
 compatible gateway and confirm its native agent consumer actually runs. Installation
 alone does not enable recording, create ingress or authorize voice actions.
-For full setup, receiver, policy and tests, use the matching **0.3.0**
+For full setup, receiver, policy and tests, use the matching **0.3.1**
 [full package](https://github.com/infomvpro/pane-agent-skills/tree/main/skills/pane-displays).
 The compact website Markdown contains instructions only. Install one variant.
 

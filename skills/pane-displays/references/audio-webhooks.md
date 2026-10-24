@@ -60,7 +60,7 @@ not multiple replicas or network filesystems. No new runtime dependency is added
 
 Expose only `POST /webhooks/pane` through your existing HTTPS reverse proxy with
 request buffering, a 256 KiB body limit, short client timeouts and rate limiting.
-Keep raw JSON bytes and `X-Tablo-*` headers unchanged; reject duplicate signature
+Keep raw JSON bytes and `X-Pane-*` headers unchanged; reject duplicate signature
 headers at the edge too. Do not expose port 8765 publicly. This stdlib HTTP listener
 is intentionally small and serial: the proxy must handle public TLS/slow clients.
 Disable request-body/signature logging. Use a synchronized host clock. Configure
@@ -71,18 +71,17 @@ worker periodically; installing a system service requires the user's setup scope
 
 Current MCP has **no webhook registration or audio administration tool**. Normal
 MCP OAuth grants and group API keys cannot call the owner webhook endpoints. Use
-the owner's authenticated dashboard or separately authorized owner REST workflow:
+the owner's authenticated dashboard for the one-time setup:
 
-- inspect `GET /projects/{project_id}/webhooks` before creating anything;
-- create with `POST /projects/{project_id}/webhooks`, a name, public HTTPS URL,
-  `events: ["audio.transcribed"]` and a secret (16–512 characters); if omitted,
-  Pane generates a secret returned privately to the owner;
+- inspect the group's existing routing before adding a receiver;
+- configure its public HTTPS URL, subscribe to `audio.transcribed` and set a
+  separate signing secret;
 - transfer that exact secret into `PANE_WEBHOOK_SECRET` securely; it is not an API key;
-- test with `POST /projects/{project_id}/webhooks/{webhook_id}/test`.
+- send a test event from the dashboard, then test a real authorized recording.
 
+Prepare the receiver and hand the URL and configuration requirements to the owner.
 Never obtain an owner session by scraping browser storage or a client's token
-cache. Ask the owner to complete this one configuration step when the agent has
-no supported authorized owner channel. Do not invent an MCP scope or widen OAuth.
+cache. Do not invent an MCP scope or widen OAuth to administer audio.
 
 Check audio is enabled on the capable display and inspect existing routing:
 display URL override -> display webhook ID -> group URL override -> group webhook
@@ -157,14 +156,14 @@ integration profile, not an invented MCP tool or official REST response schema.
 (e.g. `2026-10-22 10:00:00+00:00`); the receiver also accepts RFC3339 `T`/`Z`.
 Never normalize timestamps or JSON before signature verification.
 
-Headers (keep historical `X-Tablo-*` names):
+Headers (current Pane v2 contract):
 
 ```text
-X-Tablo-Signature-Version: 2
-X-Tablo-Timestamp: <ASCII Unix seconds>
-X-Tablo-Delivery: <stable delivery ID>
-X-Tablo-Signature-V2: v2=<lowercase HMAC-SHA256 hex>
-X-Tablo-Event: audio.transcribed
+X-Pane-Signature-Version: 2
+X-Pane-Timestamp: <ASCII Unix seconds>
+X-Pane-Delivery: <stable delivery ID>
+X-Pane-Signature-V2: v2=<lowercase HMAC-SHA256 hex>
+X-Pane-Event: audio.transcribed
 
 signed_bytes = b"v2." + timestamp_ascii + b"." + delivery_id_ascii + b"." + raw_body
 signature = HMAC_SHA256(secret_utf8, signed_bytes)

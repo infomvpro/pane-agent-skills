@@ -1,7 +1,7 @@
 {
-  "reviewed_at": "2026-10-21",
-  "source": "Pane maintained card-data schemas; exact source SHA-256 matched the production API on 2026-10-21. No authenticated get_card_schema call was needed.",
-  "schema_api": "MCP get_card_schema(card_type), not an HTTP file URL",
+  "reviewed_at": "2026-10-24",
+  "source": "Pane maintained card-data schemas; exact source SHA-256 rechecked against the maintained application on 2026-10-24. No authenticated get_card_schema call was needed.",
+  "schema_api": "MCP get_card_schema(card_type) or GET /registry/cards/{card_type}/schema",
   "scope": "Example snapshots only, not the complete card catalogue",
   "files": [
     {
@@ -25,5 +25,5 @@
       "sha256": "ec689d98eafc77fcc76dcf82866df088d710fe345225d908abfce676cf2587e0"
     }
   ],
-  "package_version": "0.3.0"
+  "package_version": "0.3.1"
 }

@@ -51,11 +51,13 @@ def one_header(headers, name: str) -> str:
 
 def verified_event(headers, raw: bytes, secret: str, group: str,
                    displays: frozenset[str], *, now: int) -> tuple[str, dict]:
-    version = one_header(headers, "X-Tablo-Signature-Version")
-    timestamp = one_header(headers, "X-Tablo-Timestamp")
-    delivery = one_header(headers, "X-Tablo-Delivery")
-    supplied = one_header(headers, "X-Tablo-Signature-V2")
-    event_name = one_header(headers, "X-Tablo-Event")
+    if any(name.lower().startswith("x-tablo-") for name in headers.keys()):
+        raise Rejected(400, "legacy_headers_not_supported")
+    version = one_header(headers, "X-Pane-Signature-Version")
+    timestamp = one_header(headers, "X-Pane-Timestamp")
+    delivery = one_header(headers, "X-Pane-Delivery")
+    supplied = one_header(headers, "X-Pane-Signature-V2")
+    event_name = one_header(headers, "X-Pane-Event")
     if (version != "2" or not re.fullmatch(r"[0-9]{1,12}", timestamp)
             or not ID.fullmatch(delivery) or not re.fullmatch(r"v2=[0-9a-f]{64}", supplied)):
         raise Rejected(401, "invalid_signature")

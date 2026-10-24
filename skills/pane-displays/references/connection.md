@@ -80,6 +80,10 @@ access token against a different audience. For REST rendering, use
 [main-rest.json](../examples/main-rest.json) or
 [temporary-rest.json](../examples/temporary-rest.json). REST notification bodies
 use the MCP notification fields except `display_id`, which is in the path.
-Registry HTTP responses provide metadata, not full card JSON Schema; obtain full
-schemas with MCP `get_card_schema`. See the live [OpenAPI document](https://api.pane.ink/openapi.json)
-for the installed REST contract, not for permission to invoke admin endpoints.
+Registry list/detail responses provide metadata. Fetch the full JSON Schema with
+`GET /registry/cards/{card_type}/schema` or MCP `get_card_schema`; REST-only
+integrations do not need an MCP connection for schema discovery. See the live [OpenAPI document](https://pane.ink/pane/docs/openapi.json)
+for the public agent/integration contract. Account administration, device provisioning
+and firmware protocols are owner-managed; use the dashboard and ask the owner
+when those actions are needed. The public reference is not permission to invoke
+additional operations.

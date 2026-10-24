@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.3.1 — 2026-10-24
+
+- Fix the receiver to require the real X-Pane v2 HTTP headers, reject mixed legacy
+  headers, and check the actual sender-to-receiver boundary.
+- Clarify on-display temporary timing and REST card-schema discovery.
+- Point integrations to the public agent OpenAPI contract and keep owner account,
+  provisioning and firmware workflows in the dashboard.
+- Synchronize compact/full website exports and schema provenance with the reviewed
+  application. Preserve helper behavior, webhook safety and all MCP tools.
+
 ## 0.3.0 — 2026-10-22
 
 - Add an opt-in v2 webhook receiver with durable SQLite acceptance, group/display

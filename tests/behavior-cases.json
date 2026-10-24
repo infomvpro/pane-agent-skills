@@ -154,7 +154,7 @@
     },
     {
       "id": "superseded-retry",
-      "request": "Check whether yesterday\u2019s notice was accepted.",
+      "request": "Check whether yesterday’s notice was accepted.",
       "context": "Operation recovery returns published=true, current=false, operation.status=superseded.",
       "expect": [
         "Report original publication and supersession, not current display.",
@@ -232,6 +232,26 @@
       "expect": [
         "Mark needs_review, inspect native job/publication before explicit retry.",
         "No automatic new answer/key, keep accepted/processed/published/displayed distinct."
+      ]
+    },
+    {
+      "id": "temporary-pending-window",
+      "request": "Show this alert for 45 seconds.",
+      "context": "Publication succeeded; temporary_timing v1 is pending, device is offline.",
+      "expect": [
+        "Do not claim displayed or that visible duration ends 45 seconds after publication.",
+        "Explain pending delivery and the 300-second start window; its hard deadline is not the visible-duration clock.",
+        "Use bounded exact frame/publication evidence reads."
+      ]
+    },
+    {
+      "id": "temporary-active-legacy",
+      "request": "When does this temporary view expire?",
+      "context": "One device reports active v1 timing; another uses legacy publication timing.",
+      "expect": [
+        "Use remaining visible duration after refresh for v1 and publication-time expiry for legacy.",
+        "Do not restart timing on reads or reconnects.",
+        "Do not promise universal offline return; main caching depends on firmware."
       ]
     }
   ]

@@ -39,12 +39,12 @@ def body(value=None):
 
 def headers(raw, *, delivery='del_aud_example_001', timestamp=NOW, name='audio.transcribed'):
     message = Message()
-    message['X-Tablo-Signature-Version'] = '2'
-    message['X-Tablo-Timestamp'] = str(timestamp)
-    message['X-Tablo-Delivery'] = delivery
-    message['X-Tablo-Event'] = name
+    message['X-Pane-Signature-Version'] = '2'
+    message['X-Pane-Timestamp'] = str(timestamp)
+    message['X-Pane-Delivery'] = delivery
+    message['X-Pane-Event'] = name
     signed = b'.'.join([b'v2', str(timestamp).encode(), delivery.encode(), raw])
-    message['X-Tablo-Signature-V2'] = 'v2=' + hmac.new(SECRET.encode(), signed, hashlib.sha256).hexdigest()
+    message['X-Pane-Signature-V2'] = 'v2=' + hmac.new(SECRET.encode(), signed, hashlib.sha256).hexdigest()
     message['Content-Type'] = 'application/json'
     message['Content-Length'] = str(len(raw))
     return message
@@ -53,6 +53,18 @@ def headers(raw, *, delivery='del_aud_example_001', timestamp=NOW, name='audio.t
 class SignatureTests(unittest.TestCase):
     def verify(self, raw, h=None):
         return verified_event(h or headers(raw), raw, SECRET, GROUP, DISPLAYS, now=NOW)
+
+    def test_legacy_and_mixed_headers_are_rejected(self):
+        current = headers(body())
+        legacy = Message()
+        for name, value in current.items():
+            legacy[name.replace('X-Pane-', 'X-Tablo-')] = value
+        for candidate in [legacy, current]:
+            if candidate is current:
+                candidate['X-Tablo-Event'] = 'audio.transcribed'
+            with self.assertRaises(Rejected) as failure:
+                self.verify(body(), candidate)
+            self.assertEqual(failure.exception.status, 400)
 
     def test_realistic_event_and_test_noop(self):
         self.assertEqual(self.verify(body())[1], event())
@@ -68,9 +80,9 @@ class SignatureTests(unittest.TestCase):
             with self.assertRaises(Rejected): self.verify(body(data))
 
     def test_no_legacy_fallback_and_duplicate_headers(self):
-        for name in ['X-Tablo-Signature-V2', 'X-Tablo-Timestamp', 'X-Tablo-Event', 'X-Tablo-Delivery']:
+        for name in ['X-Pane-Signature-V2', 'X-Pane-Timestamp', 'X-Pane-Event', 'X-Pane-Delivery']:
             h = headers(body())
-            h['X-Tablo-Signature'] = 'irrelevant'
+            h['X-Pane-Signature'] = 'irrelevant'
             del h[name]
             with self.assertRaises(Rejected): self.verify(body(), h)
             h = headers(body()); h[name] = h[name]
@@ -79,8 +91,8 @@ class SignatureTests(unittest.TestCase):
     def test_tampered_body_delivery_event_and_time(self):
         h = headers(body())
         with self.assertRaises(Rejected): self.verify(body() + b' ', h)
-        for name, value in [('X-Tablo-Delivery','del_other'), ('X-Tablo-Event','webhook.test'),
-                            ('X-Tablo-Signature-Version','1'), ('X-Tablo-Timestamp','bad')]:
+        for name, value in [('X-Pane-Delivery','del_other'), ('X-Pane-Event','webhook.test'),
+                            ('X-Pane-Signature-Version','1'), ('X-Pane-Timestamp','bad')]:
             h = headers(body()); h.replace_header(name,value)
             with self.assertRaises(Rejected): self.verify(body(), h)
         for delta in [-301,31]:
@@ -207,7 +219,7 @@ class HTTPTests(InboxFixture):
         data=json.loads((SKILL/'examples/audio/webhook-test.json').read_text())
         self.assertEqual(self.post(body(data),name='webhook.test'),(200,{'status':'test_verified'}))
         self.assertEqual(self.inbox.counts(),{'pending':1})
-        self.assertEqual(self.post(body(),changes={'X-Tablo-Signature-V2':'v2='+'0'*64})[0],401)
+        self.assertEqual(self.post(body(),changes={'X-Pane-Signature-V2':'v2='+'0'*64})[0],401)
         self.assertEqual(self.post(body(),changes={'Content-Length':str(MAX_BODY+1)})[0],413)
         self.assertEqual(self.post(body(),changes={'Content-Type':'text/plain'})[0],415)
         self.assertEqual(self.post(body(),changes={'Transfer-Encoding':'chunked'})[0],400)

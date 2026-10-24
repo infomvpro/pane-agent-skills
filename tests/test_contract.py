@@ -185,3 +185,16 @@ class RetryAfterTests(unittest.TestCase):
         self.assertEqual(len(calls), 1)
         self.assertEqual(now[0], 20)
         self.assertEqual(result["state"], "unconfirmed_budget_exhausted")
+
+
+class PublicGuidanceTests(unittest.TestCase):
+    def test_agent_references_exclude_owner_and_firmware_protocols(self):
+        skill = ROOT / "skills/pane-displays"
+        for path in skill.rglob("*.md"):
+            text = path.read_text()
+            for private in ["https://api.pane.ink/openapi.json", "/device/register", "/devices/{",
+                            "/projects/{project_id}/webhooks", "/auth/login"]:
+                self.assertNotIn(private, text, str(path))
+        connection = (skill / "references/connection.md").read_text()
+        self.assertIn("https://pane.ink/pane/docs/openapi.json", connection)
+        self.assertIn("GET /registry/cards/{card_type}/schema", connection)

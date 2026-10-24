@@ -1,6 +1,6 @@
 # Compatibility record — 2026-10-22
 
-Package version: **0.3.0**. Live tool schemas remain authoritative. The public
+Package version: **0.3.1**. Live tool schemas remain authoritative. The public
 package is self-contained and does not require access to the application repo.
 
 | Evidence | What was checked |
@@ -40,7 +40,7 @@ in this full package; install one variant per agent. The application documentati
 build then regenerates its Markdown/ZIP and web snapshot. Source synchronization
 does not itself publish the website or change an installed agent's skill.
 
-Voice package 0.3.0 is checked against the maintained server's `_webhook_payload`,
+Voice package 0.3.1 is checked against the maintained server's `_webhook_payload`,
 signing functions, owner webhook routes and delivery behavior. Receiver tests use
 synthetic loopback HTTP, SQLite restart/replay and real bounded subprocesses.
 They do not prove a public deployment, model execution or end-to-end physical audio.
